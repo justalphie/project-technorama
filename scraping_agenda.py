@@ -1,30 +1,13 @@
 import playwright
+import playwright.sync_api
 from playwright.sync_api import sync_playwright
 import json
-import playwright.sync_api
+
 
 
 url = "https://techorama.be/agenda/"
 selector_links = "div.m-subject__container-inner.a-box-simple__inner-2 > a"
 
-with sync_playwright() as p:
-    browser = p.chromium.launch(headless=True)
-    page = browser.new_page()
-    page.goto(url)
-    page.wait_for_timeout(3000)
-    links_elements = page.query_selector_all(selector_links)
-    links = [element.get_property("href").json_value() for element in links_elements] # .get_attribute("href")
-    filepath = "links_tue.csv"
-    #with open(filepath, "w") as f:
-        #f.write("\n".join(links))
-    page.locator("button:has-text(\"wednesday\")").click()
-    links_elements = page.query_selector_all(selector_links)
-    links = [element.get_property("href").json_value() for element in links_elements] # .get_attribute("href")
-    filepath = "links_wed.csv"
-    #with open(filepath, "w") as f:
-        #f.write("\n".join(links))
-    
-    browser.close()
 
 #TODO
 #1 save the structure [{"time":"...", "activities":[{"name_of_activity":"...", "speaker_name": "...", general_topic": "topic name", "room_number":"..". "url":"...", "date":"...", "time":"time"}]}
